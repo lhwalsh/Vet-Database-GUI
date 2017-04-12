@@ -52,14 +52,14 @@ public class VetDatabase extends javax.swing.JFrame {
         Pet = new javax.swing.JMenuItem();
         MROwner = new javax.swing.JMenuItem();
         AnimalKind = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        Add = new javax.swing.JMenu();
         AddAppointment = new javax.swing.JMenuItem();
         AddMedicalRecord = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "Enter Results From Appointments Search Here" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -72,7 +72,7 @@ public class VetDatabase extends javax.swing.JFrame {
         AppointmentsSearch.setText("Appointments");
 
         jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "Enter Results From Medical Records Search Here" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -162,7 +162,7 @@ public class VetDatabase extends javax.swing.JFrame {
 
         jMenuBar1.add(Search);
 
-        jMenu2.setText("Add");
+        Add.setText("Add");
 
         AddAppointment.setText("Appointment");
         AddAppointment.addActionListener(new java.awt.event.ActionListener() {
@@ -170,7 +170,7 @@ public class VetDatabase extends javax.swing.JFrame {
                 AddAppointmentActionPerformed(evt);
             }
         });
-        jMenu2.add(AddAppointment);
+        Add.add(AddAppointment);
 
         AddMedicalRecord.setText("Medical Record");
         AddMedicalRecord.addActionListener(new java.awt.event.ActionListener() {
@@ -178,9 +178,9 @@ public class VetDatabase extends javax.swing.JFrame {
                 AddMedicalRecordActionPerformed(evt);
             }
         });
-        jMenu2.add(AddMedicalRecord);
+        Add.add(AddMedicalRecord);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(Add);
 
         setJMenuBar(jMenuBar1);
 
@@ -213,23 +213,20 @@ public class VetDatabase extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddAppointmentActionPerformed
-        
+        AddAppointment pop = new AddAppointment();
+        pop.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_AddAppointmentActionPerformed
 
     private void AddMedicalRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddMedicalRecordActionPerformed
         // TODO add your handling code here:
+        AddMedicalRecord pop = new AddMedicalRecord();
+        pop.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_AddMedicalRecordActionPerformed
 
     private void AppointmentsForTodayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppointmentsForTodayActionPerformed
         // TODO add your handling code here:
-        /*if(courseLabel.getText() == " ") {
-            String message = "Enter Course please.";
-            String title = "Enter Course";
-            JOptionPane.showMessageDialog(this, message, title, JOptionePane, ERROR_MESSAGE);
-        } else {
-            createCategoryPane();
-        }
-        }*/
     }//GEN-LAST:event_AppointmentsForTodayActionPerformed
 
     private void AOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AOwnerActionPerformed
@@ -308,6 +305,7 @@ public class VetDatabase extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AOwner;
+    private javax.swing.JMenu Add;
     private javax.swing.JMenuItem AddAppointment;
     private javax.swing.JMenuItem AddMedicalRecord;
     private javax.swing.JMenuItem AnimalKind;
@@ -326,7 +324,6 @@ public class VetDatabase extends javax.swing.JFrame {
     private javax.swing.JOptionPane SearchPane;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
