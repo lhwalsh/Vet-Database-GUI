@@ -26,6 +26,7 @@ public class NewPet extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        NoTextErrorMessage = new javax.swing.JOptionPane();
         PetNameTextField = new javax.swing.JTextField();
         OwnerAgeTextField = new javax.swing.JTextField();
         PetAgeTextField = new javax.swing.JTextField();
@@ -146,6 +147,15 @@ public class NewPet extends javax.swing.JFrame {
         newPet[1] = OwnerAgeTextField.getText();
         newPet[2] = PetAgeTextField.getText();
         newPet[3] = AnimalTypeTextField.getText();
+        boolean empty = false;
+        for (int i = 0; i < 4; i++) {
+            if (newPet[i].isEmpty()) {
+                empty = true;
+            }
+        }
+        if (empty) {
+             NoTextErrorMessage.showMessageDialog(DoneButton, "Please fill in all text fields.");
+        }
         this.dispose();
     }//GEN-LAST:event_DoneButtonActionPerformed
 
@@ -194,6 +204,7 @@ public class NewPet extends javax.swing.JFrame {
     private javax.swing.JTextField AnimalTypeTextField;
     private javax.swing.JButton CancelButton;
     private javax.swing.JButton DoneButton;
+    private javax.swing.JOptionPane NoTextErrorMessage;
     private javax.swing.JTextField OwnerAgeTextField;
     private javax.swing.JTextField PetAgeTextField;
     private javax.swing.JTextField PetNameTextField;

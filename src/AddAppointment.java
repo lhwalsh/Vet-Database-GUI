@@ -26,6 +26,7 @@ public class AddAppointment extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        NoTextErrorMessage = new javax.swing.JOptionPane();
         ADone = new javax.swing.JButton();
         ACancelAdd = new javax.swing.JButton();
         PetNameTextField = new javax.swing.JTextField();
@@ -152,9 +153,19 @@ public class AddAppointment extends javax.swing.JFrame {
         newAppointment[1] = DateTextField.getText();
         newAppointment[2] = TimeTextField.getText();
         newAppointment[3] = StatusTextField.getText();
-        VetDatabase pop = new VetDatabase();
-        pop.setVisible(true);
-        this.dispose();
+        boolean empty = false;
+        for (int i = 0; i < 4; i++) {
+            if (newAppointment[i].isEmpty()) {
+                empty = true;
+            }
+        }
+        if (empty) {
+             NoTextErrorMessage.showMessageDialog(ADone, "Please fill out all text fields.");
+        } else {
+            VetDatabase pop = new VetDatabase();
+            pop.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_ADoneActionPerformed
 
     private void ACancelAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ACancelAddActionPerformed
@@ -205,6 +216,7 @@ public class AddAppointment extends javax.swing.JFrame {
     private javax.swing.JButton ADone;
     private javax.swing.JTextField DateTextField;
     private javax.swing.JButton NewPetButton;
+    private javax.swing.JOptionPane NoTextErrorMessage;
     private javax.swing.JTextField PetNameTextField;
     private javax.swing.JTextField StatusTextField;
     private javax.swing.JTextField TimeTextField;

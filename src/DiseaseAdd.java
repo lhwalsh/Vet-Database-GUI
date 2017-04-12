@@ -27,16 +27,16 @@ public class DiseaseAdd extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        NoTextErrorMessage = new javax.swing.JOptionPane();
         DiseaseNameTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         CurrentRadioButton = new javax.swing.JRadioButton();
         PastRadioButton = new javax.swing.JRadioButton();
         DoneButton = new javax.swing.JButton();
         AddAnotherButton = new javax.swing.JButton();
+        Cancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        DiseaseNameTextField.setText("Enter Disease Name Here");
 
         jLabel1.setText("Disease:");
 
@@ -47,6 +47,9 @@ public class DiseaseAdd extends javax.swing.JFrame {
         PastRadioButton.setText("Past");
 
         DoneButton.setText("Done");
+        DoneButton.setMaximumSize(new java.awt.Dimension(123, 29));
+        DoneButton.setMinimumSize(new java.awt.Dimension(123, 29));
+        DoneButton.setPreferredSize(new java.awt.Dimension(123, 29));
         DoneButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DoneButtonActionPerformed(evt);
@@ -60,6 +63,15 @@ public class DiseaseAdd extends javax.swing.JFrame {
             }
         });
 
+        Cancel.setText("Cancel");
+        Cancel.setMaximumSize(new java.awt.Dimension(123, 29));
+        Cancel.setMinimumSize(new java.awt.Dimension(123, 29));
+        Cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -68,25 +80,22 @@ public class DiseaseAdd extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(DiseaseNameTextField)
+                .addComponent(DiseaseNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(CurrentRadioButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(AddAnotherButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(PastRadioButton)
-                        .addGap(45, 45, 45))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                        .addComponent(DoneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(37, Short.MAX_VALUE))))
+                .addGap(55, 55, 55)
+                .addComponent(CurrentRadioButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                .addComponent(PastRadioButton)
+                .addGap(45, 45, 45))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(AddAnotherButton)
+                .addGap(20, 20, 20)
+                .addComponent(DoneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,8 +110,9 @@ public class DiseaseAdd extends javax.swing.JFrame {
                     .addComponent(CurrentRadioButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(DoneButton)
-                    .addComponent(AddAnotherButton))
+                    .addComponent(DoneButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddAnotherButton)
+                    .addComponent(Cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39))
         );
 
@@ -111,37 +121,60 @@ public class DiseaseAdd extends javax.swing.JFrame {
 
     private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed
         // TODO add your handling code here:
+        boolean empty = false;
         if (CurrentRadioButton.isSelected()) {
             newDisease[counter] = "Current";
         } else if (PastRadioButton.isSelected()) {
             newDisease[counter] = "Past";
         } else {
-            //need to put an error message here
+            empty = true;
         }
-        counter++;
-        newDisease[counter] = DiseaseNameTextField.getText();
-        counter++;
-        AddMedicalRecord pop = new AddMedicalRecord();
-        pop.setVisible(true);
-        this.dispose();
+        if (DiseaseNameTextField.getText().isEmpty()) {
+            empty = true;
+        }
+        if (empty) {
+             NoTextErrorMessage.showMessageDialog(DoneButton, "Please enter a disease name.");
+        } else {
+            counter++;
+            newDisease[counter] = DiseaseNameTextField.getText();
+            counter++;
+            AddMedicalRecord pop = new AddMedicalRecord();
+            pop.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_DoneButtonActionPerformed
 
     private void AddAnotherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddAnotherButtonActionPerformed
         // TODO add your handling code here:
+         boolean empty = false;
         if (CurrentRadioButton.isSelected()) {
             newDisease[counter] = "Current";
         } else if (PastRadioButton.isSelected()) {
             newDisease[counter] = "Past";
         } else {
-            //need to put an error message here
+            empty = true;
         }
-        counter++;
-        newDisease[counter] = DiseaseNameTextField.getText();
-        counter++;
-        DiseaseAdd pop = new DiseaseAdd();
+        if (DiseaseNameTextField.getText().isEmpty()) {
+            empty = true;
+        }
+        if (empty) {
+             NoTextErrorMessage.showMessageDialog(DoneButton, "Please enter a disease name.");
+        } else {
+            counter++;
+            newDisease[counter] = DiseaseNameTextField.getText();
+            counter++;
+            DiseaseAdd pop = new DiseaseAdd();
+            pop.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_AddAnotherButtonActionPerformed
+
+    private void CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelActionPerformed
+        // TODO add your handling code here:
+        AddMedicalRecord pop = new AddMedicalRecord();
         pop.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_AddAnotherButtonActionPerformed
+    }//GEN-LAST:event_CancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,9 +214,11 @@ public class DiseaseAdd extends javax.swing.JFrame {
     int counter = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddAnotherButton;
+    private javax.swing.JButton Cancel;
     private javax.swing.JRadioButton CurrentRadioButton;
     private javax.swing.JTextField DiseaseNameTextField;
     private javax.swing.JButton DoneButton;
+    private javax.swing.JOptionPane NoTextErrorMessage;
     private javax.swing.JRadioButton PastRadioButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;

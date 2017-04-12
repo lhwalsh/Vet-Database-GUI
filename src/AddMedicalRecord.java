@@ -26,6 +26,7 @@ public class AddMedicalRecord extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        NoTextErrorMessage = new javax.swing.JOptionPane();
         MRDone = new javax.swing.JButton();
         MRCancelAdd = new javax.swing.JButton();
         PetNameTextField = new javax.swing.JTextField();
@@ -140,10 +141,14 @@ public class AddMedicalRecord extends javax.swing.JFrame {
 
     private void MRDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MRDoneActionPerformed
         // TODO add your handling code here:
-        String newMedicalRecord = PetNameTextField.getText();
-        VetDatabase pop = new VetDatabase();
-        pop.setVisible(true);
-        this.dispose();
+        if (PetNameTextField.getText().isEmpty()) {
+             NoTextErrorMessage.showMessageDialog(MRDone, "Please enter a pet name.");
+        } else {
+            String newMedicalRecord = PetNameTextField.getText();
+            VetDatabase pop = new VetDatabase();
+            pop.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_MRDoneActionPerformed
 
     private void MRCancelAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MRCancelAddActionPerformed
@@ -170,13 +175,13 @@ public class AddMedicalRecord extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PopUpAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddMedicalRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PopUpAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddMedicalRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PopUpAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddMedicalRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PopUpAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddMedicalRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -193,6 +198,7 @@ public class AddMedicalRecord extends javax.swing.JFrame {
     private javax.swing.JButton MRCancelAdd;
     private javax.swing.JButton MRDone;
     private javax.swing.JButton NewPetButton;
+    private javax.swing.JOptionPane NoTextErrorMessage;
     private javax.swing.JTextField PetNameTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
