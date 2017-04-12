@@ -15,6 +15,7 @@ public class AddAppointment extends javax.swing.JFrame {
      */
     public AddAppointment() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**

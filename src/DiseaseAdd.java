@@ -15,6 +15,7 @@ public class DiseaseAdd extends javax.swing.JFrame {
      */
     public DiseaseAdd() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -80,21 +81,21 @@ public class DiseaseAdd extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(DiseaseNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+                .addComponent(DiseaseNameTextField)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addComponent(CurrentRadioButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PastRadioButton)
                 .addGap(45, 45, 45))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Cancel, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(AddAnotherButton)
-                .addGap(20, 20, 20)
-                .addComponent(DoneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addComponent(DoneButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -133,7 +134,7 @@ public class DiseaseAdd extends javax.swing.JFrame {
             empty = true;
         }
         if (empty) {
-             NoTextErrorMessage.showMessageDialog(DoneButton, "Please enter a disease name.");
+             NoTextErrorMessage.showMessageDialog(DoneButton, "Please answer all fields name.");
         } else {
             counter++;
             newDisease[counter] = DiseaseNameTextField.getText();
@@ -158,7 +159,7 @@ public class DiseaseAdd extends javax.swing.JFrame {
             empty = true;
         }
         if (empty) {
-             NoTextErrorMessage.showMessageDialog(DoneButton, "Please enter a disease name.");
+             NoTextErrorMessage.showMessageDialog(DoneButton, "Please answer all fields.");
         } else {
             counter++;
             newDisease[counter] = DiseaseNameTextField.getText();

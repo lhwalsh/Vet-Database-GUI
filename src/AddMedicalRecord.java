@@ -15,6 +15,7 @@ public class AddMedicalRecord extends javax.swing.JFrame {
      */
     public AddMedicalRecord() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**

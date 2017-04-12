@@ -15,6 +15,7 @@ public class AddVaccination extends javax.swing.JFrame {
      */
     public AddVaccination() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -31,6 +32,7 @@ public class AddVaccination extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         DoneButton = new javax.swing.JButton();
         AddAnotherButton = new javax.swing.JButton();
+        CancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,22 +52,31 @@ public class AddVaccination extends javax.swing.JFrame {
             }
         });
 
+        CancelButton.setText("Cancel");
+        CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(VaccinationTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(VaccinationTextField))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(CancelButton)
+                        .addGap(49, 49, 49)
+                        .addComponent(AddAnotherButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                        .addComponent(DoneButton)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(AddAnotherButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(DoneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -77,7 +88,8 @@ public class AddVaccination extends javax.swing.JFrame {
                 .addGap(58, 58, 58)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DoneButton)
-                    .addComponent(AddAnotherButton))
+                    .addComponent(AddAnotherButton)
+                    .addComponent(CancelButton))
                 .addContainerGap(57, Short.MAX_VALUE))
         );
 
@@ -86,11 +98,15 @@ public class AddVaccination extends javax.swing.JFrame {
 
     private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed
         // TODO add your handling code here:
-        newVaccination[counter] = VaccinationTextField.getText();
-        counter++;
-        NewPet pop = new NewPet();
-        pop.setVisible(true);
-        this.dispose();
+        if (VaccinationTextField.getText().isEmpty()) {
+            NoTextErrorMessage.showMessageDialog(DoneButton, "Please enter a vaccination name.");
+        } else {
+            newVaccination[counter] = VaccinationTextField.getText();
+            counter++;
+            NewPet pop = new NewPet();
+            pop.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_DoneButtonActionPerformed
 
     private void AddAnotherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddAnotherButtonActionPerformed
@@ -105,6 +121,13 @@ public class AddVaccination extends javax.swing.JFrame {
             NoTextErrorMessage.showMessageDialog(AddAnotherButton, "Please enter a vaccination name.");
         }
     }//GEN-LAST:event_AddAnotherButtonActionPerformed
+
+    private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
+        // TODO add your handling code here:
+        NewPet pop = new NewPet();
+        pop.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_CancelButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,6 +167,7 @@ public class AddVaccination extends javax.swing.JFrame {
     int counter = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddAnotherButton;
+    private javax.swing.JButton CancelButton;
     private javax.swing.JButton DoneButton;
     private javax.swing.JOptionPane NoTextErrorMessage;
     private javax.swing.JTextField VaccinationTextField;

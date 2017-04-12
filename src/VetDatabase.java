@@ -20,6 +20,7 @@ public class VetDatabase extends javax.swing.JFrame {
      */
     public VetDatabase() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     

@@ -15,6 +15,7 @@ public class NewPet extends javax.swing.JFrame {
      */
     public NewPet() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -155,8 +156,9 @@ public class NewPet extends javax.swing.JFrame {
         }
         if (empty) {
              NoTextErrorMessage.showMessageDialog(DoneButton, "Please fill in all text fields.");
+        } else {
+            this.dispose();
         }
-        this.dispose();
     }//GEN-LAST:event_DoneButtonActionPerformed
 
     private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
