@@ -51,7 +51,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="31" max="32767" attributes="0"/>
+              <EmptySpace pref="7" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="OwnerTextField" alignment="1" min="-2" pref="327" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -61,7 +61,10 @@
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-              <Component id="NewPetButton" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="NewPetButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="NewOwnerButton" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -87,12 +90,15 @@
                   <Component id="TimeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="3" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="OwnerTextField" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="OwnerTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="NewOwnerButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="49" max="32767" attributes="0"/>
+              <EmptySpace pref="47" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="ACancelAdd" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="ADone" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -156,6 +162,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NewPetButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="NewOwnerButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="New Owner?"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NewOwnerButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

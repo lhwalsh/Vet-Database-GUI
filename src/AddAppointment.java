@@ -97,6 +97,7 @@ public class AddAppointment extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         NewPetButton = new javax.swing.JButton();
+        NewOwnerButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -135,6 +136,13 @@ public class AddAppointment extends javax.swing.JFrame {
             }
         });
 
+        NewOwnerButton.setText("New Owner?");
+        NewOwnerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NewOwnerButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -157,7 +165,7 @@ public class AddAppointment extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(OwnerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -165,7 +173,9 @@ public class AddAppointment extends javax.swing.JFrame {
                         .addComponent(DateTextField, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(PetNameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)))
                 .addGap(43, 43, 43)
-                .addComponent(NewPetButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(NewPetButton)
+                    .addComponent(NewOwnerButton))
                 .addGap(49, 49, 49))
         );
         layout.setVerticalGroup(
@@ -185,11 +195,13 @@ public class AddAppointment extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(42, 42, 42)
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(OwnerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(OwnerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(NewOwnerButton))
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ACancelAdd)
                     .addComponent(ADone))
@@ -255,6 +267,12 @@ public class AddAppointment extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_ACancelAddActionPerformed
 
+    private void NewOwnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewOwnerButtonActionPerformed
+        // TODO add your handling code here:
+        NewOwner pop = new NewOwner();
+        pop.setVisible(true);
+    }//GEN-LAST:event_NewOwnerButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -295,6 +313,7 @@ public class AddAppointment extends javax.swing.JFrame {
     private javax.swing.JButton ACancelAdd;
     private javax.swing.JButton ADone;
     private javax.swing.JTextField DateTextField;
+    private javax.swing.JButton NewOwnerButton;
     private javax.swing.JButton NewPetButton;
     private javax.swing.JOptionPane NoTextErrorMessage;
     private javax.swing.JTextField OwnerTextField;

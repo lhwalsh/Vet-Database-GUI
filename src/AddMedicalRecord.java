@@ -37,6 +37,7 @@ public class AddMedicalRecord extends javax.swing.JFrame {
         AddDiseaseButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         OwnerNameTextField = new javax.swing.JTextField();
+        NewOwnerButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,6 +82,13 @@ public class AddMedicalRecord extends javax.swing.JFrame {
 
         jLabel3.setText("Owner Name:");
 
+        NewOwnerButton.setText("New Owner?");
+        NewOwnerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NewOwnerButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -96,20 +104,22 @@ public class AddMedicalRecord extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(AddDiseaseButton)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(PetNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(43, 43, 43)
-                                .addComponent(NewPetButton)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(NewOwnerButton)
+                                    .addComponent(NewPetButton))))))
                 .addGap(49, 49, 49))
             .addGroup(layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(OwnerNameTextField)
-                .addGap(169, 169, 169))
+                .addGap(191, 191, 191))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,11 +130,12 @@ public class AddMedicalRecord extends javax.swing.JFrame {
                         .addComponent(PetNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(NewPetButton))
                     .addComponent(jLabel1))
-                .addGap(21, 21, 21)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(OwnerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                    .addComponent(OwnerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NewOwnerButton))
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(AddDiseaseButton))
@@ -174,6 +185,12 @@ public class AddMedicalRecord extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_MRCancelAddActionPerformed
 
+    private void NewOwnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewOwnerButtonActionPerformed
+        // TODO add your handling code here:
+        NewOwner pop = new NewOwner();
+        pop.setVisible(true);
+    }//GEN-LAST:event_NewOwnerButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -213,6 +230,7 @@ public class AddMedicalRecord extends javax.swing.JFrame {
     private javax.swing.JButton AddDiseaseButton;
     private javax.swing.JButton MRCancelAdd;
     private javax.swing.JButton MRDone;
+    private javax.swing.JButton NewOwnerButton;
     private javax.swing.JButton NewPetButton;
     private javax.swing.JOptionPane NoTextErrorMessage;
     private javax.swing.JTextField OwnerNameTextField;

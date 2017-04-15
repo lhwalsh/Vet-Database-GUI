@@ -63,6 +63,7 @@ public class VetDatabase extends javax.swing.JFrame {
         Add = new javax.swing.JMenu();
         AddAppointment = new javax.swing.JMenuItem();
         AddMedicalRecord = new javax.swing.JMenuItem();
+        Update = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -185,6 +186,14 @@ public class VetDatabase extends javax.swing.JFrame {
         Add.add(AddMedicalRecord);
 
         jMenuBar1.add(Add);
+
+        Update.setText("Update");
+        Update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UpdateActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(Update);
 
         setJMenuBar(jMenuBar1);
 
@@ -472,6 +481,13 @@ public class VetDatabase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_AnimalKindActionPerformed
 
+    private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateActionPerformed
+        // TODO add your handling code here:
+        UpdateForm pop = new UpdateForm();
+        pop.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_UpdateActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -526,6 +542,7 @@ public class VetDatabase extends javax.swing.JFrame {
     private javax.swing.JMenu SearchAppointments;
     private javax.swing.JMenu SearchMedicalRecords;
     private javax.swing.JOptionPane SearchPane;
+    private javax.swing.JMenu Update;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
