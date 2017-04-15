@@ -1,7 +1,14 @@
 
+import com.mysql.jdbc.Statement;
 import java.awt.LayoutManager;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -34,12 +41,12 @@ public class VetDatabase extends javax.swing.JFrame {
     private void initComponents() {
 
         SearchPane = new javax.swing.JOptionPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         MedicalRecordsLabel = new javax.swing.JLabel();
         AppointmentsSearch = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        jTextArea2 = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         Search = new javax.swing.JMenu();
         SearchAppointments = new javax.swing.JMenu();
@@ -59,25 +66,21 @@ public class VetDatabase extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Enter Results From Appointments Search Here" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
-
         MedicalRecordsLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         MedicalRecordsLabel.setText("Medical Records");
 
         AppointmentsSearch.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         AppointmentsSearch.setText("Appointments");
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Enter Results From Medical Records Search Here" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList2);
+        jTextArea1.setEditable(false);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jTextArea2.setEditable(false);
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane2.setViewportView(jTextArea2);
 
         Search.setText("Search Filters");
 
@@ -189,25 +192,27 @@ public class VetDatabase extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-            .addComponent(jScrollPane2)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(AppointmentsSearch)
                     .addComponent(MedicalRecordsLabel))
-                .addGap(0, 827, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 989, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(AppointmentsSearch)
-                .addGap(1, 1, 1)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MedicalRecordsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
         );
 
         pack();
@@ -227,46 +232,244 @@ public class VetDatabase extends javax.swing.JFrame {
     }//GEN-LAST:event_AddMedicalRecordActionPerformed
 
     private void AppointmentsForTodayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppointmentsForTodayActionPerformed
-        // TODO add your handling code here:
+        jTextArea1.setText(null);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select * from appointments WHERE CAST(appt_date_time AS date) = CURDATE();");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+               int apptID = rs.getInt("apptID");
+               String apptDateTime = rs.getString("appt_date_time");
+               String petName = rs.getString("pet_name");
+               String ownerName = rs.getString("owner_name");
+               String status = rs.getString("status");
+               jTextArea1.append(apptID + " - " + apptDateTime + " - " + petName + " - " + ownerName + " - " + status + "\n");
+            }
+            con.close();
+        } catch(ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }//GEN-LAST:event_AppointmentsForTodayActionPerformed
 
     private void AOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AOwnerActionPerformed
-        // TODO add your handling code here:
-        String s = SearchPane.showInputDialog("Please enter the owner's name.");
+        String s = SearchPane.showInputDialog(null, "Please enter the owner's name.");
+        jTextArea1.setText(null);
+        if(s == null) {
+            //go back to the main menu because the user hit cancel
+        }
+        else {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+                PreparedStatement ps = con.prepareStatement("select * from appointments WHERE owner_name = '"+s+"';");
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()) {
+                   int apptID = rs.getInt("apptID");
+                   String apptDateTime = rs.getString("appt_date_time");
+                   String petName = rs.getString("pet_name");
+                   String ownerName = rs.getString("owner_name");
+                   String status = rs.getString("status");
+                   jTextArea1.append(apptID + " - " + apptDateTime + " - " + petName + " - " + ownerName + " - " + status + "\n");
+                }
+                con.close();
+            } catch(ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
         
     }//GEN-LAST:event_AOwnerActionPerformed
 
     private void DateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DateActionPerformed
-        // TODO add your handling code here:
-        String s = SearchPane.showInputDialog("Please enter the date.");
+        String s = SearchPane.showInputDialog("Please enter the date. (Format: YYYY-MM-DD)");
+        jTextArea1.setText(null);
+        if(s == null) {
+            //go back to the main menu because the user hit cancel
+        }
+        else {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+                PreparedStatement ps = con.prepareStatement("select * from appointments WHERE CAST(appt_date_time AS date) = '"+s+"';");
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()) {
+                   int apptID = rs.getInt("apptID");
+                   String apptDateTime = rs.getString("appt_date_time");
+                   String petName = rs.getString("pet_name");
+                   String ownerName = rs.getString("owner_name");
+                   String status = rs.getString("status");
+                   jTextArea1.append(apptID + " - " + apptDateTime + " - " + petName + " - " + ownerName + " - " + status + "\n");
+                }
+                con.close();
+            } catch(ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_DateActionPerformed
 
     private void PetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PetsActionPerformed
-        // TODO add your handling code here:
         String s = SearchPane.showInputDialog("Please enter the pet's name.");
+        jTextArea1.setText(null);
+        if(s == null) {
+            //go back to the main menu because the user hit cancel
+        }
+        else {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+                PreparedStatement ps = con.prepareStatement("select * from appointments WHERE pet_name = '"+s+"';");
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()) {
+                   int apptID = rs.getInt("apptID");
+                   String apptDateTime = rs.getString("appt_date_time");
+                   String petName = rs.getString("pet_name");
+                   String ownerName = rs.getString("owner_name");
+                   String status = rs.getString("status");
+                   jTextArea1.append(apptID + " - " + apptDateTime + " - " + petName + " - " + ownerName + " - " + status + "\n");
+                }
+                con.close();
+            } catch(ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_PetsActionPerformed
 
     private void OutstandingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OutstandingActionPerformed
-        // TODO add your handling code here:
+        jTextArea1.setText(null);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select * from appointments WHERE status = 'outstanding' ORDER BY appt_date_time;");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                int apptID = rs.getInt("apptID");
+                String apptDateTime = rs.getString("appt_date_time");
+                String petName = rs.getString("pet_name");
+                String ownerName = rs.getString("owner_name");
+                String status = rs.getString("status");
+                jTextArea1.append(apptID + " - " + apptDateTime + " - " + petName + " - " + ownerName + " - " + status + "\n");
+            }
+            con.close();
+        } catch(ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }//GEN-LAST:event_OutstandingActionPerformed
 
     private void ResolvedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResolvedActionPerformed
-        // TODO add your handling code here:
+        jTextArea1.setText(null);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select * from appointments WHERE status = 'resolved' ORDER BY appt_date_time;");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                int apptID = rs.getInt("apptID");
+                String apptDateTime = rs.getString("appt_date_time");
+                String petName = rs.getString("pet_name");
+                String ownerName = rs.getString("owner_name");
+                String status = rs.getString("status");
+                jTextArea1.append(apptID + " - " + apptDateTime + " - " + petName + " - " + ownerName + " - " + status + "\n");
+            }
+            con.close();
+        } catch(ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }//GEN-LAST:event_ResolvedActionPerformed
 
     private void PetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PetActionPerformed
-        // TODO add your handling code here:
         String s = SearchPane.showInputDialog("Please enter the pet's name.");
+        jTextArea2.setText(null);
+        if(s == null) {
+            //go back to the main menu because the user hit cancel
+        }
+        else {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+                PreparedStatement ps = con.prepareStatement("select * from medical_records WHERE pet_name = '"+s+"';");
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()) {
+                   int recordID = rs.getInt("recordID");
+                   String petName = rs.getString("pet_name");
+                   String diseaseName = rs.getString("disease_name");
+                   String status = rs.getString("status");
+                   jTextArea2.append(recordID + " - " + petName + " - " + diseaseName + " - " + status + "\n");
+                }
+                con.close();
+            } catch(ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_PetActionPerformed
 
     private void MROwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MROwnerActionPerformed
-        // TODO add your handling code here:
         String s = SearchPane.showInputDialog("Please enter the owner's name.");
+        jTextArea2.setText(null);
+        if(s == null) {
+            //go back to the main menu because the user hit cancel
+        }
+        else {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+                PreparedStatement ps = con.prepareStatement("select * from medical_records AS mr, pets_info AS pi WHERE mr.pet_name = pi.pet_name AND pi.owner_name = '"+s+"';");
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()) {
+                   int recordID = rs.getInt("recordID");
+                   String petName = rs.getString("pet_name");
+                   String diseaseName = rs.getString("disease_name");
+                   String status = rs.getString("status");
+                   jTextArea2.append(recordID + " - " + petName + " - " + diseaseName + " - " + status + "\n");
+                }
+                con.close();
+            } catch(ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_MROwnerActionPerformed
 
     private void AnimalKindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnimalKindActionPerformed
-        // TODO add your handling code here:
         String s = SearchPane.showInputDialog("Please enter the what type of animal.");
+        jTextArea2.setText(null);
+        if(s == null) {
+            //go back to the main menu because the user hit cancel
+        }
+        else {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+                PreparedStatement ps = con.prepareStatement("select * from pet_types AS pt, pets_info AS pi, medical_records AS mr WHERE animal LIKE '"+s+"' AND pt.pet_type = pi.pet_type  AND pi.pet_name = mr.pet_name;");
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()) {
+                   int recordID = rs.getInt("recordID");
+                   String petName = rs.getString("pet_name");
+                   String diseaseName = rs.getString("disease_name");
+                   String status = rs.getString("status");
+                   jTextArea2.append(recordID + " - " + petName + " - " + diseaseName + " - " + status + "\n");
+                }
+                con.close();
+            } catch(ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_AnimalKindActionPerformed
 
     /**
@@ -323,10 +526,10 @@ public class VetDatabase extends javax.swing.JFrame {
     private javax.swing.JMenu SearchAppointments;
     private javax.swing.JMenu SearchMedicalRecords;
     private javax.swing.JOptionPane SearchPane;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 }

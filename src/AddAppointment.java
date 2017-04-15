@@ -1,3 +1,15 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,7 +29,53 @@ public class AddAppointment extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-
+    
+    public boolean petExists(String petName) throws SQLException {
+        boolean exists = false;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select pet_name from pets_info;");
+            ResultSet rs = ps.executeQuery();
+            List<String> results = new ArrayList<String>();
+            while(rs.next()) {
+                results.add(rs.getString(1));
+            }
+            for(int i = 0; i < results.size(); i++) {
+                if(results.get(i).equals(petName)) {
+                    exists = true;
+                    i = results.size();
+                }
+            }
+        } 
+        catch (ClassNotFoundException ex) {
+            Logger.getLogger(AddAppointment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return exists;
+    }
+    public boolean ownerExists(String ownerName) throws SQLException {
+        boolean exists = false;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select owner_name from owners;");
+            ResultSet rs = ps.executeQuery();
+            List<String> results = new ArrayList<String>();
+            while(rs.next()) {
+                results.add(rs.getString(1));
+            }
+            for(int i = 0; i < results.size(); i++) {
+                if(results.get(i).equals(ownerName)) {
+                    exists = true;
+                    i = results.size();
+                }
+            }
+        } 
+        catch (ClassNotFoundException ex) {
+            Logger.getLogger(AddAppointment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return exists;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,7 +91,7 @@ public class AddAppointment extends javax.swing.JFrame {
         PetNameTextField = new javax.swing.JTextField();
         DateTextField = new javax.swing.JTextField();
         TimeTextField = new javax.swing.JTextField();
-        StatusTextField = new javax.swing.JTextField();
+        OwnerTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -64,11 +122,11 @@ public class AddAppointment extends javax.swing.JFrame {
 
         jLabel1.setText("Pet Name:");
 
-        jLabel2.setText("Date:");
+        jLabel2.setText("Date (YYYY-MM-DD):");
 
-        jLabel3.setText("Time:");
+        jLabel3.setText("Time (00:00:01 to 23:59:59):");
 
-        jLabel4.setText("Status:");
+        jLabel4.setText("Owner Name:");
 
         NewPetButton.setText("New Pet?");
         NewPetButton.addActionListener(new java.awt.event.ActionListener() {
@@ -83,28 +141,32 @@ public class AddAppointment extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(53, 53, 53)
+                .addComponent(ACancelAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ADone, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel4)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(TimeTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(DateTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(PetNameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)))
-                        .addGap(43, 43, 43)
-                        .addComponent(NewPetButton)
-                        .addGap(49, 49, 49))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(ACancelAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ADone, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(64, 64, 64))))
+                            .addComponent(jLabel3))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(OwnerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(TimeTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(DateTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(PetNameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)))
+                .addGap(43, 43, 43)
+                .addComponent(NewPetButton)
+                .addGap(49, 49, 49))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,16 +178,16 @@ public class AddAppointment extends javax.swing.JFrame {
                         .addComponent(NewPetButton))
                     .addComponent(jLabel1))
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(OwnerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -148,12 +210,11 @@ public class AddAppointment extends javax.swing.JFrame {
     }//GEN-LAST:event_NewPetButtonActionPerformed
 
     private void ADoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADoneActionPerformed
-        // TODO add your handling code here:
         String[] newAppointment = new String[4];
         newAppointment[0] = PetNameTextField.getText();
         newAppointment[1] = DateTextField.getText();
         newAppointment[2] = TimeTextField.getText();
-        newAppointment[3] = StatusTextField.getText();
+        newAppointment[3] = OwnerTextField.getText();
         boolean empty = false;
         for (int i = 0; i < 4; i++) {
             if (newAppointment[i].isEmpty()) {
@@ -162,7 +223,25 @@ public class AddAppointment extends javax.swing.JFrame {
         }
         if (empty) {
              NoTextErrorMessage.showMessageDialog(ADone, "Please fill out all text fields.");
-        } else {
+        } 
+        else {
+            try {
+                String dateTime = newAppointment[1] + " " + newAppointment[2];
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+                if(petExists(newAppointment[0]) && ownerExists(newAppointment[3])) {
+                    PreparedStatement ps = con.prepareStatement("insert into appointments(appt_date_time, pet_name, owner_name, status)VALUES('"+dateTime+"', '"+newAppointment[0]+"','"+newAppointment[3]+"', 'outstanding');");
+                    ps.executeUpdate();
+                }
+                else {
+                    NoTextErrorMessage.showMessageDialog(ADone, "Please create new pet record first.");
+                }
+                con.close();
+            } catch(ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
             VetDatabase pop = new VetDatabase();
             pop.setVisible(true);
             this.dispose();
@@ -218,8 +297,8 @@ public class AddAppointment extends javax.swing.JFrame {
     private javax.swing.JTextField DateTextField;
     private javax.swing.JButton NewPetButton;
     private javax.swing.JOptionPane NoTextErrorMessage;
+    private javax.swing.JTextField OwnerTextField;
     private javax.swing.JTextField PetNameTextField;
-    private javax.swing.JTextField StatusTextField;
     private javax.swing.JTextField TimeTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
