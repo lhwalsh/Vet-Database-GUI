@@ -59,6 +59,8 @@ public class UpdateForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
+    
+    //checks to make sure that the appointment ID is valid for an id held in the database
     public boolean apptExists(String apptID) throws SQLException {
         boolean exists = false;
         
@@ -169,6 +171,7 @@ public class UpdateForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Updates an appointment ID to change the status from outstanding to resolved
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
         jTextArea1.setText(null);
         if (apptIDTextField.getText().isEmpty()) {
@@ -196,6 +199,7 @@ public class UpdateForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_UpdateButtonActionPerformed
 
+    //closes the current window and reopens the VetDatase window
     private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
         // TODO add your handling code here:
         VetDatabase pop = new VetDatabase();

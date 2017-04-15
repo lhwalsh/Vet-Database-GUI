@@ -120,6 +120,8 @@ public class DiseaseAdd extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //saves the disease under the current medical record into the database
+    //closes the window and reopens the AddMedicalRecord window
     private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed
         // TODO add your handling code here:
         boolean empty = false;
@@ -145,6 +147,8 @@ public class DiseaseAdd extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DoneButtonActionPerformed
 
+    //saves the disease under the current medical record into the database
+    //reopens the current window
     private void AddAnotherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddAnotherButtonActionPerformed
         // TODO add your handling code here:
          boolean empty = false;
@@ -170,6 +174,7 @@ public class DiseaseAdd extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_AddAnotherButtonActionPerformed
 
+    //reopens the AddMedicalRecord window and closes the current window
     private void CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelActionPerformed
         // TODO add your handling code here:
         AddMedicalRecord pop = new AddMedicalRecord();

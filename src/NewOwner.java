@@ -30,6 +30,7 @@ public class NewOwner extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
     
+    //checks to make sure the owner exists in the database
     public boolean ownerExists(String ownerName) throws SQLException {
         boolean exists = false;
         try {
@@ -147,6 +148,8 @@ public class NewOwner extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //adds the new owner and their information into the database
+    //closes the current window
     private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed
         // TODO add your handling code here:
         String[] newOwner = new String[3];
@@ -181,6 +184,7 @@ public class NewOwner extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DoneButtonActionPerformed
 
+    //closes the current window
     private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
         // TODO add your handling code here:
         this.dispose();

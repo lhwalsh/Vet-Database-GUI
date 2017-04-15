@@ -30,6 +30,7 @@ public class AddAppointment extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
     
+    //checks to see if a pet with the current name already exists in the database
     public boolean petExists(String petName) throws SQLException {
         boolean exists = false;
         try {
@@ -215,12 +216,15 @@ public class AddAppointment extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_PetNameTextFieldActionPerformed
 
+    //opens the NewPet window
     private void NewPetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewPetButtonActionPerformed
         // TODO add your handling code here:
         NewPet pop = new NewPet();
         pop.setVisible(true);
     }//GEN-LAST:event_NewPetButtonActionPerformed
 
+    //saves the appointment into the database and reopens the VetDatabase while
+    //closing the current window
     private void ADoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADoneActionPerformed
         String[] newAppointment = new String[4];
         newAppointment[0] = PetNameTextField.getText();
@@ -260,6 +264,7 @@ public class AddAppointment extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ADoneActionPerformed
 
+    //closes the window and reopens the VetDatabase window
     private void ACancelAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ACancelAddActionPerformed
         // TODO add your handling code here:
         VetDatabase pop = new VetDatabase();
@@ -267,6 +272,7 @@ public class AddAppointment extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_ACancelAddActionPerformed
 
+    //opens the NewOwner window
     private void NewOwnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewOwnerButtonActionPerformed
         // TODO add your handling code here:
         NewOwner pop = new NewOwner();

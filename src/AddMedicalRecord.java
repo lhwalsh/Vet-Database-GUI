@@ -124,16 +124,10 @@ public class AddMedicalRecord extends javax.swing.JFrame {
                         .addComponent(AnotherButton)))
                 .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(MRDone, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(NewPetButton)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(NewOwnerButton)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(49, 49, 49))))
+                    .addComponent(MRDone, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NewPetButton)
+                    .addComponent(NewOwnerButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,12 +165,14 @@ public class AddMedicalRecord extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_PetNameTextFieldActionPerformed
 
+    //opens the NewPet window
     private void NewPetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewPetButtonActionPerformed
         // TODO add your handling code here:
         NewPet pop = new NewPet();
         pop.setVisible(true);
     }//GEN-LAST:event_NewPetButtonActionPerformed
 
+    // adds the new Medical Record into the database
     private void MRDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MRDoneActionPerformed
         // TODO add your handling code here:
         if (PetNameTextField.getText().isEmpty()) {
@@ -213,6 +209,7 @@ public class AddMedicalRecord extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MRDoneActionPerformed
 
+    //closes the current window and reopens the VetDatabase window
     private void MRCancelAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MRCancelAddActionPerformed
         // TODO add your handling code here:
         VetDatabase pop = new VetDatabase();
@@ -220,12 +217,14 @@ public class AddMedicalRecord extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_MRCancelAddActionPerformed
 
+    //opens the NewOwner window
     private void NewOwnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewOwnerButtonActionPerformed
         // TODO add your handling code here:
         NewOwner pop = new NewOwner();
         pop.setVisible(true);
     }//GEN-LAST:event_NewOwnerButtonActionPerformed
 
+    //saves the medical record into the database, and reopens the current window
     private void AnotherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnotherButtonActionPerformed
         if (!DiseaseTextField.getText().isEmpty()) {
             newRecord[counter] = DiseaseTextField.getText();

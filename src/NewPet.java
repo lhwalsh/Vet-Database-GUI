@@ -30,6 +30,7 @@ public class NewPet extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
     
+    //checks to see if there is already a pet with that name in the database
     public boolean petExists(String petName) throws SQLException {
         boolean exists = false;
         try {
@@ -53,6 +54,8 @@ public class NewPet extends javax.swing.JFrame {
         }
         return exists;
     }
+    
+    //checks to see if an owner with that name currently exists in the database
     public boolean ownerExists(String ownerName) throws SQLException {
         boolean exists = false;
         try {
@@ -204,12 +207,13 @@ public class NewPet extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // opens the AddVaccination window
     private void AddVaccinationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddVaccinationButtonActionPerformed
         AddVaccination pop = new AddVaccination();
         pop.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_AddVaccinationButtonActionPerformed
 
+    //saves the pet's information into the database and closes the current window
     private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed
         // TODO add your handling code here:
         String[] newPet = new String[5];
@@ -257,6 +261,7 @@ public class NewPet extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DoneButtonActionPerformed
 
+    //closes the current window
     private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_CancelButtonActionPerformed

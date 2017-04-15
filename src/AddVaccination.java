@@ -118,6 +118,7 @@ public class AddVaccination extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //assigns the vaccination to the per's information and closes the window, while reopening the NewPet window
     private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed
         // TODO add your handling code here:
         if (VaccinationTextField.getText().isEmpty()) {
@@ -149,19 +150,17 @@ public class AddVaccination extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
             }
-            VetDatabase pop = new VetDatabase();
-            pop.setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_DoneButtonActionPerformed
 
+    //Saves nothing to the database, but closes the window
     private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
         // TODO add your handling code here:
-        NewPet pop = new NewPet();
-        pop.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_CancelButtonActionPerformed
 
+    //assigns the vaccination to the pet's info in the database, and reopens the current window
     private void AddAnotherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddAnotherButtonActionPerformed
         // TODO add your handling code here:
         if (!VaccinationTextField.getText().isEmpty()) {
