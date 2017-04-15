@@ -352,10 +352,7 @@ public class VetDatabase extends javax.swing.JFrame {
         
     }//GEN-LAST:event_AOwnerActionPerformed
 
-<<<<<<< HEAD
     //This should open a text box asking for the date, followed by showing a list of the appointments set for that date in the text field below
-=======
->>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void DateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DateActionPerformed
         String s = SearchPane.showInputDialog("Please enter the date. (Format: YYYY-MM-DD)");
         jTextArea1.setText(null);
@@ -395,10 +392,7 @@ public class VetDatabase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DateActionPerformed
 
-<<<<<<< HEAD
     //This should open a text box asking for the pet's name, followed by showing a list of the pets who have that name in the text field below
-=======
->>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void PetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PetsActionPerformed
         String s = SearchPane.showInputDialog("Please enter the pet's name.");
         jTextArea1.setText(null);
@@ -438,10 +432,7 @@ public class VetDatabase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_PetsActionPerformed
 
-<<<<<<< HEAD
     //This should show a list of the outstanding appointments in the text field below
-=======
->>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void OutstandingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OutstandingActionPerformed
         jTextArea1.setText(null);
         String format = "%1$-15s %2$25s %3$25s %4$25s %5$25s";
@@ -475,10 +466,7 @@ public class VetDatabase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_OutstandingActionPerformed
 
-<<<<<<< HEAD
     //This should show a list of the resolved appointments in the text field below
-=======
->>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void ResolvedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResolvedActionPerformed
         jTextArea1.setText(null);
         String format = "%1$-15s %2$25s %3$25s %4$25s %5$25s";
@@ -512,10 +500,7 @@ public class VetDatabase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ResolvedActionPerformed
 
-<<<<<<< HEAD
     //this should allow the user to enter the pet's name, then show all pets with that name in the corresponding text field below
-=======
->>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void PetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PetActionPerformed
         String s = SearchPane.showInputDialog("Please enter the pet's name.");
         jTextArea2.setText(null);
@@ -554,10 +539,7 @@ public class VetDatabase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_PetActionPerformed
 
-<<<<<<< HEAD
     //this should allow the user to enter the owner's name, then show all owners with that name in the corresponding text field below
-=======
->>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void MROwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MROwnerActionPerformed
         String s = SearchPane.showInputDialog("Please enter the owner's name.");
         jTextArea2.setText(null);
@@ -596,10 +578,7 @@ public class VetDatabase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MROwnerActionPerformed
 
-<<<<<<< HEAD
     //this should allow the user to enter the pet's type, then show all pets with that type in the corresponding text field below
-=======
->>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void AnimalKindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnimalKindActionPerformed
         String s = SearchPane.showInputDialog("Please enter the what type of animal.");
         jTextArea2.setText(null);
@@ -613,11 +592,7 @@ public class VetDatabase extends javax.swing.JFrame {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
-<<<<<<< HEAD
-                PreparedStatement ps = con.prepareStatement("select * from pet_types AS pt, pets_info AS pi, medical_records AS mr WHERE animal LIKE '"+s+"' AND pt.pet_type = pi.pet_type  AND pi.pet_name = mr.pet_name;");
-=======
                 PreparedStatement ps = con.prepareStatement("select * from pet_types AS pt, pets_info AS pi, medical_records AS mr WHERE animal LIKE '"+s+"' AND pt.animal = pi.pet_type  AND pi.pet_name = mr.pet_name;");
->>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
                 ResultSet rs = ps.executeQuery();
                 while(rs.next()) {
                    int recordID = rs.getInt("recordID");
@@ -642,10 +617,7 @@ public class VetDatabase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_AnimalKindActionPerformed
 
-<<<<<<< HEAD
     //this should take you to the addappointment menu
-=======
->>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void AppointmentUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppointmentUpdateActionPerformed
         // TODO add your handling code here:
         UpdateForm pop = new UpdateForm();
@@ -655,13 +627,8 @@ public class VetDatabase extends javax.swing.JFrame {
 
     private void InfoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InfoMenuItemActionPerformed
         jTextArea3.setText(null);
-<<<<<<< HEAD
-        String format = "%1$-15s %2$15s %3$35s %4$25s %5$25s %6$25s %7$30s";
-        String someLine = String.format(format, "petID", "petName", "ownerName", "ageYears", "ageMonths", "pet_type", "breed");
-=======
         String format = "%1$-15s %2$15s %3$35s %4$30s %5$30s %6$30s";
         String someLine = String.format(format, "petID", "petName", "ownerName", "ageMonths", "pet_type", "breed");
->>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
         jTextArea3.append(someLine + "\n");
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -672,27 +639,16 @@ public class VetDatabase extends javax.swing.JFrame {
                     int petID = rs.getInt("petID");
                     String petName = rs.getString("pet_name");
                     String ownerName = rs.getString("owner_name");
-<<<<<<< HEAD
-                    int ageYears = rs.getInt("age_years");
-                    int ageMonths = rs.getInt("age_months");
-                    int pet_type = rs.getInt("pet_type");
-=======
                     int ageMonths = rs.getInt("age_months");
                     String pet_type = rs.getString("pet_type");
->>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
                     String breed = rs.getString("breed");
                     String dash = "---";
                     for(int i = 0; i < 70; i++) {
                         jTextArea3.append(dash);
                     }
                     jTextArea3.append("\n");
-<<<<<<< HEAD
-                    format = "%1$-15s %2$20s %3$40s %4$25s %5$30s %6$30s %7$45s";
-                    someLine = String.format(format, petID, petName, ownerName, ageYears, ageMonths, pet_type, breed);
-=======
                     format = "%1$-15s %2$20s %3$40s %4$30s %5$35s %6$45s";
                     someLine = String.format(format, petID, petName, ownerName, ageMonths, pet_type, breed);
->>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
                     jTextArea3.append(someLine + "\n");
             }
             con.close();
