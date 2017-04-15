@@ -30,7 +30,10 @@ public class NewPet extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
     
+<<<<<<< HEAD
     //checks to see if there is already a pet with that name in the database
+=======
+>>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     public boolean petExists(String petName) throws SQLException {
         boolean exists = false;
         try {
@@ -54,8 +57,11 @@ public class NewPet extends javax.swing.JFrame {
         }
         return exists;
     }
+<<<<<<< HEAD
     
     //checks to see if an owner with that name currently exists in the database
+=======
+>>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     public boolean ownerExists(String ownerName) throws SQLException {
         boolean exists = false;
         try {
@@ -207,13 +213,22 @@ public class NewPet extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+<<<<<<< HEAD
     // opens the AddVaccination window
+    private void AddVaccinationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddVaccinationButtonActionPerformed
+        AddVaccination pop = new AddVaccination();
+        pop.setVisible(true);
+    }//GEN-LAST:event_AddVaccinationButtonActionPerformed
+
+    //saves the pet's information into the database and closes the current window
+=======
     private void AddVaccinationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddVaccinationButtonActionPerformed
         AddVaccination pop = new AddVaccination();
         pop.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_AddVaccinationButtonActionPerformed
 
+>>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed
         // TODO add your handling code here:
         String[] newPet = new String[5];
@@ -240,7 +255,11 @@ public class NewPet extends javax.swing.JFrame {
                 else if(!ownerExists(newPet[1])) {
                     Class.forName("com.mysql.jdbc.Driver");
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+<<<<<<< HEAD
+                    PreparedStatement ps = con.prepareStatement("insert into pets_info(pet_name, owner_name, age_years, age_months, pet_type, breed)VALUES('"+newPet[0]+"', '"+newPet[1]+"', '0', '"+newPet[2]+"', '"+newPet[3]+"', '"+newPet[4]+"');");
+=======
                     PreparedStatement ps = con.prepareStatement("insert into pets_info(pet_name, owner_name, age_months, pet_type, breed)VALUES('"+newPet[0]+"', '"+newPet[1]+"', '"+newPet[2]+"', '"+newPet[3]+"', '"+newPet[4]+"');");
+>>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
                     ps.executeUpdate();
                     
                     NoTextErrorMessage.showMessageDialog(DoneButton, "This owner does not exist yet, don't forget to create an owner record.");
@@ -249,7 +268,11 @@ public class NewPet extends javax.swing.JFrame {
                 else {
                     Class.forName("com.mysql.jdbc.Driver");
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+<<<<<<< HEAD
+                    PreparedStatement ps = con.prepareStatement("insert into pets_info(pet_name, owner_name, age_years, age_months, pet_type, breed)VALUES('"+newPet[0]+"', '"+newPet[1]+"', '0', '"+newPet[2]+"', '"+newPet[3]+"', '"+newPet[4]+"');");
+=======
                     PreparedStatement ps = con.prepareStatement("insert into pets_info(pet_name, owner_name, age_months, pet_type, breed)VALUES('"+newPet[0]+"', '"+newPet[1]+"', '"+newPet[2]+"', '"+newPet[3]+"', '"+newPet[4]+"');");
+>>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
                     ps.executeUpdate();
                     this.dispose();
                 }
@@ -261,7 +284,10 @@ public class NewPet extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DoneButtonActionPerformed
 
+<<<<<<< HEAD
     //closes the current window
+=======
+>>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_CancelButtonActionPerformed

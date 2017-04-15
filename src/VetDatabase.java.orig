@@ -262,22 +262,32 @@ public class VetDatabase extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+<<<<<<< HEAD
     //when you press Appointment from the Add menu, it should make the AddAppointment form visible and get rid of the current window.
+=======
+
+>>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void AddAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddAppointmentActionPerformed
         AddAppointment pop = new AddAppointment();
         pop.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_AddAppointmentActionPerformed
 
+<<<<<<< HEAD
     //when you press Medical Record from the Add menu, it should make the AddMedicalRecord form visible and get rid of the current window.
+=======
+>>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void AddMedicalRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddMedicalRecordActionPerformed
     AddMedicalRecord pop = new AddMedicalRecord();
         pop.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_AddMedicalRecordActionPerformed
 
+<<<<<<< HEAD
     //clicking this menu item, should take you to a new window that will display appointments for today 
     //and allow the user to search for a specific appointment
+=======
+>>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void AppointmentsForTodayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppointmentsForTodayActionPerformed
         jTextArea1.setText(null);
         String format = "%1$-15s %2$25s %3$25s %4$25s %5$25s";
@@ -311,7 +321,10 @@ public class VetDatabase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_AppointmentsForTodayActionPerformed
 
+<<<<<<< HEAD
     //This should open a text box asking for the owner's name, followed by showing a list of the owners who have that name in the text field below
+=======
+>>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
     private void AOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AOwnerActionPerformed
         String s = SearchPane.showInputDialog(null, "Please enter the owner's name.");
         jTextArea1.setText(null);

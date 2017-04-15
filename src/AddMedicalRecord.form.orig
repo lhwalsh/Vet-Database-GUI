@@ -59,7 +59,11 @@
                   <Component id="NewPetButton" min="-2" max="-2" attributes="0"/>
                   <Component id="NewOwnerButton" min="-2" max="-2" attributes="0"/>
               </Group>
+<<<<<<< HEAD
+              <EmptySpace min="49" max="32767" attributes="0"/>
+=======
               <EmptySpace min="42" max="32767" attributes="0"/>
+>>>>>>> a5c2c9222a5517bd69bfca96526f64d456b5dec2
           </Group>
       </Group>
     </DimensionLayout>
