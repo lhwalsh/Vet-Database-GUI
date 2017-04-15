@@ -1,3 +1,15 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,6 +27,60 @@ public class UpdateForm extends javax.swing.JFrame {
      */
     public UpdateForm() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        jTextArea1.setText(null);
+        String format = "%1$-15s %2$25s %3$25s %4$25s %5$25s";
+        String someLine = String.format(format, "apptID", "apptDateTime", "petName", "ownerName", "status");
+        jTextArea1.append(someLine + "\n");
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select * from appointments WHERE status = 'outstanding';");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+               int apptID = rs.getInt("apptID");
+               String apptDateTime = rs.getString("appt_date_time");
+               String petName = rs.getString("pet_name");
+               String ownerName = rs.getString("owner_name");
+               String status = rs.getString("status");
+               String dash = "---";
+                for(int i = 0; i < 50; i++) {
+                    jTextArea1.append(dash);
+                }
+                jTextArea1.append("\n");
+               format = "%1$-15s %2$25s %3$25s %4$30s %5$25s";
+               someLine = String.format(format, apptID, apptDateTime, petName, ownerName, status);
+               jTextArea1.append(someLine + "\n");
+            }
+            con.close();
+        } catch(ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }
+    public boolean apptExists(String apptID) throws SQLException {
+        boolean exists = false;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select apptID from appointments;");
+            ResultSet rs = ps.executeQuery();
+            List<String> results = new ArrayList<String>();
+            while(rs.next()) {
+                results.add(rs.getString(1));
+            }
+            for(int i = 0; i < results.size(); i++) {
+                if(results.get(i).equals(apptID)) {
+                    exists = true;
+                    i = results.size();
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        return exists;
     }
 
     /**
@@ -66,22 +132,20 @@ public class UpdateForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(CancelButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(UpdateButton)
+                        .addGap(33, 33, 33))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(CancelButton)
-                            .addComponent(jLabel2))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(apptIDTextField))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-                                .addComponent(UpdateButton)
-                                .addGap(31, 31, 31)))))
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(apptIDTextField)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -90,27 +154,42 @@ public class UpdateForm extends javax.swing.JFrame {
                 .addGap(9, 9, 9)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(apptIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(UpdateButton)
-                    .addComponent(CancelButton))
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(CancelButton)
+                    .addComponent(UpdateButton))
+                .addGap(39, 39, 39))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
-        // TODO add your handling code here:
+        jTextArea1.setText(null);
         if (apptIDTextField.getText().isEmpty()) {
             NoTextErrorMessage.showMessageDialog(UpdateButton, "Please enter an appointment ID.");
         } else {
             String s = apptIDTextField.getText();
+            try {
+                if(!apptExists(s)) {
+                    NoTextErrorMessage.showMessageDialog(UpdateButton, "Please enter a valid appointment ID.");
+                }
+                else  {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+                    PreparedStatement ps = con.prepareStatement("update appointments SET status = 'resolved' WHERE apptID = '"+s+"';");
+                    ps.executeUpdate();
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
             VetDatabase pop = new VetDatabase();
             pop.setVisible(true);
             this.dispose();

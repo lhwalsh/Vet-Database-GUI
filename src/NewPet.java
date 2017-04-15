@@ -1,3 +1,15 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,6 +28,53 @@ public class NewPet extends javax.swing.JFrame {
     public NewPet() {
         initComponents();
         this.setLocationRelativeTo(null);
+    }
+    
+    public boolean petExists(String petName) throws SQLException {
+        boolean exists = false;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select pet_name from pets_info;");
+            ResultSet rs = ps.executeQuery();
+            List<String> results = new ArrayList<String>();
+            while(rs.next()) {
+                results.add(rs.getString(1));
+            }
+            for(int i = 0; i < results.size(); i++) {
+                if(results.get(i).equals(petName)) {
+                    exists = true;
+                    i = results.size();
+                }
+            }
+        } 
+        catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        return exists;
+    }
+    public boolean ownerExists(String ownerName) throws SQLException {
+        boolean exists = false;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select owner_name from owners;");
+            ResultSet rs = ps.executeQuery();
+            List<String> results = new ArrayList<String>();
+            while(rs.next()) {
+                results.add(rs.getString(1));
+            }
+            for(int i = 0; i < results.size(); i++) {
+                if(results.get(i).equals(ownerName)) {
+                    exists = true;
+                    i = results.size();
+                }
+            }
+        } 
+        catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        return exists;
     }
 
     /**
@@ -40,6 +99,8 @@ public class NewPet extends javax.swing.JFrame {
         DoneButton = new javax.swing.JButton();
         AnimalTypeTextField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        breedTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,7 +115,7 @@ public class NewPet extends javax.swing.JFrame {
 
         jLabel2.setText("Owner's Name:");
 
-        jLabel3.setText("Pet's Age:");
+        jLabel3.setText("Pet's Age (in months):");
 
         jLabel4.setText("Vaccinations:");
 
@@ -74,6 +135,8 @@ public class NewPet extends javax.swing.JFrame {
 
         jLabel5.setText("Animal Type");
 
+        jLabel6.setText("Breed (\"null\" if none):");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -81,6 +144,7 @@ public class NewPet extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6)
                     .addComponent(CancelButton)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
@@ -91,40 +155,46 @@ public class NewPet extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(AddVaccinationButton)
-                        .addGap(0, 109, Short.MAX_VALUE))
+                        .addGap(0, 158, Short.MAX_VALUE))
                     .addComponent(OwnerAgeTextField)
                     .addComponent(PetNameTextField)
                     .addComponent(PetAgeTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(AnimalTypeTextField)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(DoneButton)))
+                        .addComponent(DoneButton))
+                    .addComponent(breedTextField))
                 .addGap(60, 60, 60))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PetNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(OwnerAgeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PetAgeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AnimalTypeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AddVaccinationButton)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(PetNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(OwnerAgeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(PetAgeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(AnimalTypeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(breedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel4))
+                    .addComponent(AddVaccinationButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CancelButton)
                     .addComponent(DoneButton))
@@ -135,7 +205,6 @@ public class NewPet extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddVaccinationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddVaccinationButtonActionPerformed
-        // TODO add your handling code here:
         AddVaccination pop = new AddVaccination();
         pop.setVisible(true);
         this.dispose();
@@ -143,26 +212,52 @@ public class NewPet extends javax.swing.JFrame {
 
     private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed
         // TODO add your handling code here:
-        String[] newPet = new String[4];
+        String[] newPet = new String[5];
         newPet[0] = PetNameTextField.getText();
         newPet[1] = OwnerAgeTextField.getText();
         newPet[2] = PetAgeTextField.getText();
         newPet[3] = AnimalTypeTextField.getText();
+        newPet[4] = breedTextField.getText();
         boolean empty = false;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             if (newPet[i].isEmpty()) {
                 empty = true;
             }
         }
         if (empty) {
              NoTextErrorMessage.showMessageDialog(DoneButton, "Please fill in all text fields.");
-        } else {
-            this.dispose();
+        } 
+        else {
+            try {
+                if(petExists(newPet[0])) {
+                    NoTextErrorMessage.showMessageDialog(DoneButton, "This pet already exists.");
+                    this.dispose();
+                }
+                else if(!ownerExists(newPet[1])) {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+                    PreparedStatement ps = con.prepareStatement("insert into pets_info(pet_name, owner_name, age_years, age_months, pet_type, breed)VALUES('"+newPet[0]+"', '"+newPet[1]+"', '0', '"+newPet[2]+"', '"+newPet[3]+"', '"+newPet[4]+"');");
+                    ps.executeUpdate();
+                    
+                    NoTextErrorMessage.showMessageDialog(DoneButton, "This owner does not exist yet, don't forget to create an owner record.");
+                    this.dispose();
+                }
+                else {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+                    PreparedStatement ps = con.prepareStatement("insert into pets_info(pet_name, owner_name, age_years, age_months, pet_type, breed)VALUES('"+newPet[0]+"', '"+newPet[1]+"', '0', '"+newPet[2]+"', '"+newPet[3]+"', '"+newPet[4]+"');");
+                    ps.executeUpdate();
+                    this.dispose();
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         }
     }//GEN-LAST:event_DoneButtonActionPerformed
 
     private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_CancelButtonActionPerformed
 
@@ -210,10 +305,12 @@ public class NewPet extends javax.swing.JFrame {
     private javax.swing.JTextField OwnerAgeTextField;
     private javax.swing.JTextField PetAgeTextField;
     private javax.swing.JTextField PetNameTextField;
+    private javax.swing.JTextField breedTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 }

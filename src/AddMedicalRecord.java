@@ -1,3 +1,12 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -34,12 +43,14 @@ public class AddMedicalRecord extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         NewPetButton = new javax.swing.JButton();
-        AddDiseaseButton = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        OwnerNameTextField = new javax.swing.JTextField();
+        StatusLabel = new javax.swing.JLabel();
+        StatusTextField = new javax.swing.JTextField();
         NewOwnerButton = new javax.swing.JButton();
+        DiseaseTextField = new javax.swing.JTextField();
+        AnotherButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1000, 350));
 
         MRDone.setText("Done");
         MRDone.addActionListener(new java.awt.event.ActionListener() {
@@ -64,7 +75,7 @@ public class AddMedicalRecord extends javax.swing.JFrame {
 
         jLabel1.setText("Pet Name:");
 
-        jLabel2.setText("Diseases:");
+        jLabel2.setText("Disease Name (one per submission):");
 
         NewPetButton.setText("New Pet?");
         NewPetButton.addActionListener(new java.awt.event.ActionListener() {
@@ -73,14 +84,7 @@ public class AddMedicalRecord extends javax.swing.JFrame {
             }
         });
 
-        AddDiseaseButton.setText("Add Diseases Here");
-        AddDiseaseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddDiseaseButtonActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("Owner Name:");
+        StatusLabel.setText("Status (past or current):");
 
         NewOwnerButton.setText("New Owner?");
         NewOwnerButton.addActionListener(new java.awt.event.ActionListener() {
@@ -89,61 +93,75 @@ public class AddMedicalRecord extends javax.swing.JFrame {
             }
         });
 
+        AnotherButton.setText("Add Another");
+        AnotherButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AnotherButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(StatusLabel)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PetNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DiseaseTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
                         .addComponent(MRCancelAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(MRDone, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(174, 174, 174)
+                        .addComponent(AnotherButton)))
+                .addGap(52, 52, 52)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(MRDone, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(AddDiseaseButton)
+                            .addComponent(NewPetButton)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(PetNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(43, 43, 43)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(NewOwnerButton)
-                                    .addComponent(NewPetButton))))))
-                .addGap(49, 49, 49))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(OwnerNameTextField)
-                .addGap(191, 191, 191))
+                                .addComponent(NewOwnerButton)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(49, 49, 49))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(PetNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(NewPetButton))
-                    .addComponent(jLabel1))
-                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(OwnerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NewOwnerButton))
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(AddDiseaseButton))
-                .addGap(18, 18, 18)
+                    .addComponent(PetNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NewPetButton)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(DiseaseTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(StatusLabel)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(NewOwnerButton)))
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(MRCancelAdd)
-                    .addComponent(MRDone))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(MRDone)
+                    .addComponent(AnotherButton))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
@@ -152,13 +170,6 @@ public class AddMedicalRecord extends javax.swing.JFrame {
     private void PetNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PetNameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PetNameTextFieldActionPerformed
-
-    private void AddDiseaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddDiseaseButtonActionPerformed
-        // TODO add your handling code here:
-        DiseaseAdd pop = new DiseaseAdd();
-        pop.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_AddDiseaseButtonActionPerformed
 
     private void NewPetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewPetButtonActionPerformed
         // TODO add your handling code here:
@@ -171,7 +182,31 @@ public class AddMedicalRecord extends javax.swing.JFrame {
         if (PetNameTextField.getText().isEmpty()) {
              NoTextErrorMessage.showMessageDialog(MRDone, "Please enter a pet name.");
         } else {
-            String newMedicalRecord = PetNameTextField.getText();
+            String[] newRecord = new String[3];
+            newRecord[0] = PetNameTextField.getText();
+            newRecord[1] = DiseaseTextField.getText();
+            newRecord[2] = StatusTextField.getText();
+            boolean empty = false;
+            for(int i = 0; i < 3; i++) {
+                if(newRecord[i].isEmpty()) {
+                    empty = true;
+                }
+            }
+            if (empty) {
+                NoTextErrorMessage.showMessageDialog(MRDone, "Please fill in all text fields.");
+            } 
+            else {
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+                    PreparedStatement ps = con.prepareStatement("insert into medical_records(pet_name, disease_name, status)VALUES('"+newRecord[0]+"', '"+newRecord[1]+"', '"+newRecord[2]+"');");
+                    ps.executeUpdate();
+                } catch (ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            }
             VetDatabase pop = new VetDatabase();
             pop.setVisible(true);
             this.dispose();
@@ -190,6 +225,18 @@ public class AddMedicalRecord extends javax.swing.JFrame {
         NewOwner pop = new NewOwner();
         pop.setVisible(true);
     }//GEN-LAST:event_NewOwnerButtonActionPerformed
+
+    private void AnotherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnotherButtonActionPerformed
+        if (!DiseaseTextField.getText().isEmpty()) {
+            newRecord[counter] = DiseaseTextField.getText();
+            counter++;
+            AddMedicalRecord pop = new AddMedicalRecord();
+            pop.setVisible(true);
+            this.dispose();
+        } else {
+            NoTextErrorMessage.showMessageDialog(AnotherButton, "Please enter a vaccination name.");
+        }
+    }//GEN-LAST:event_AnotherButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,18 +272,20 @@ public class AddMedicalRecord extends javax.swing.JFrame {
             }
         });
     }
-
+    String[] newRecord = new String[100];
+    int counter = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddDiseaseButton;
+    private javax.swing.JButton AnotherButton;
+    private javax.swing.JTextField DiseaseTextField;
     private javax.swing.JButton MRCancelAdd;
     private javax.swing.JButton MRDone;
     private javax.swing.JButton NewOwnerButton;
     private javax.swing.JButton NewPetButton;
     private javax.swing.JOptionPane NoTextErrorMessage;
-    private javax.swing.JTextField OwnerNameTextField;
     private javax.swing.JTextField PetNameTextField;
+    private javax.swing.JLabel StatusLabel;
+    private javax.swing.JTextField StatusTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

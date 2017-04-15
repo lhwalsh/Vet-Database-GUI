@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /*
@@ -41,12 +43,16 @@ public class VetDatabase extends javax.swing.JFrame {
     private void initComponents() {
 
         SearchPane = new javax.swing.JOptionPane();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
         MedicalRecordsLabel = new javax.swing.JLabel();
         AppointmentsSearch = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
+        AppointmentsSearch1 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea3 = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         Search = new javax.swing.JMenu();
         SearchAppointments = new javax.swing.JMenu();
@@ -60,10 +66,12 @@ public class VetDatabase extends javax.swing.JFrame {
         Pet = new javax.swing.JMenuItem();
         MROwner = new javax.swing.JMenuItem();
         AnimalKind = new javax.swing.JMenuItem();
+        InfoMenuItem = new javax.swing.JMenuItem();
         Add = new javax.swing.JMenu();
         AddAppointment = new javax.swing.JMenuItem();
         AddMedicalRecord = new javax.swing.JMenuItem();
         Update = new javax.swing.JMenu();
+        AppointmentsUpdate = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,6 +90,13 @@ public class VetDatabase extends javax.swing.JFrame {
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
+
+        AppointmentsSearch1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        AppointmentsSearch1.setText("Pet Information");
+
+        jTextArea3.setColumns(20);
+        jTextArea3.setRows(5);
+        jScrollPane3.setViewportView(jTextArea3);
 
         Search.setText("Search Filters");
 
@@ -165,6 +180,14 @@ public class VetDatabase extends javax.swing.JFrame {
 
         Search.add(SearchMedicalRecords);
 
+        InfoMenuItem.setText("Pet Information");
+        InfoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InfoMenuItemActionPerformed(evt);
+            }
+        });
+        Search.add(InfoMenuItem);
+
         jMenuBar1.add(Search);
 
         Add.setText("Add");
@@ -188,11 +211,15 @@ public class VetDatabase extends javax.swing.JFrame {
         jMenuBar1.add(Add);
 
         Update.setText("Update");
-        Update.addActionListener(new java.awt.event.ActionListener() {
+
+        AppointmentsUpdate.setText("Appointments");
+        AppointmentsUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UpdateActionPerformed(evt);
+                AppointmentUpdateActionPerformed(evt);
             }
         });
+        Update.add(AppointmentsUpdate);
+
         jMenuBar1.add(Update);
 
         setJMenuBar(jMenuBar1);
@@ -206,10 +233,14 @@ public class VetDatabase extends javax.swing.JFrame {
                     .addComponent(AppointmentsSearch)
                     .addComponent(MedicalRecordsLabel))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 989, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(AppointmentsSearch1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -221,7 +252,12 @@ public class VetDatabase extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MedicalRecordsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(AppointmentsSearch1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -234,14 +270,16 @@ public class VetDatabase extends javax.swing.JFrame {
     }//GEN-LAST:event_AddAppointmentActionPerformed
 
     private void AddMedicalRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddMedicalRecordActionPerformed
-        // TODO add your handling code here:
-        AddMedicalRecord pop = new AddMedicalRecord();
+    AddMedicalRecord pop = new AddMedicalRecord();
         pop.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_AddMedicalRecordActionPerformed
 
     private void AppointmentsForTodayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppointmentsForTodayActionPerformed
         jTextArea1.setText(null);
+        String format = "%1$-15s %2$25s %3$25s %4$25s %5$25s";
+        String someLine = String.format(format, "apptID", "apptDateTime", "petName", "ownerName", "status");
+        jTextArea1.append(someLine + "\n");
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
@@ -253,7 +291,14 @@ public class VetDatabase extends javax.swing.JFrame {
                String petName = rs.getString("pet_name");
                String ownerName = rs.getString("owner_name");
                String status = rs.getString("status");
-               jTextArea1.append(apptID + " - " + apptDateTime + " - " + petName + " - " + ownerName + " - " + status + "\n");
+               String dash = "---";
+                for(int i = 0; i < 50; i++) {
+                    jTextArea1.append(dash);
+                }
+                jTextArea1.append("\n");
+               format = "%1$-15s %2$25s %3$25s %4$30s %5$25s";
+               someLine = String.format(format, apptID, apptDateTime, petName, ownerName, status);
+               jTextArea1.append(someLine + "\n");
             }
             con.close();
         } catch(ClassNotFoundException e) {
@@ -266,6 +311,9 @@ public class VetDatabase extends javax.swing.JFrame {
     private void AOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AOwnerActionPerformed
         String s = SearchPane.showInputDialog(null, "Please enter the owner's name.");
         jTextArea1.setText(null);
+        String format = "%1$-15s %2$25s %3$25s %4$25s %5$25s";
+        String someLine = String.format(format, "apptID", "apptDateTime", "petName", "ownerName", "status");
+        jTextArea1.append(someLine + "\n");
         if(s == null) {
             //go back to the main menu because the user hit cancel
         }
@@ -281,7 +329,14 @@ public class VetDatabase extends javax.swing.JFrame {
                    String petName = rs.getString("pet_name");
                    String ownerName = rs.getString("owner_name");
                    String status = rs.getString("status");
-                   jTextArea1.append(apptID + " - " + apptDateTime + " - " + petName + " - " + ownerName + " - " + status + "\n");
+                   String dash = "---";
+                    for(int i = 0; i < 50; i++) {
+                        jTextArea1.append(dash);
+                    }
+                    jTextArea1.append("\n");
+                   format = "%1$-15s %2$25s %3$25s %4$30s %5$25s";
+                   someLine = String.format(format, apptID, apptDateTime, petName, ownerName, status);
+                   jTextArea1.append(someLine + "\n");
                 }
                 con.close();
             } catch(ClassNotFoundException e) {
@@ -296,6 +351,9 @@ public class VetDatabase extends javax.swing.JFrame {
     private void DateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DateActionPerformed
         String s = SearchPane.showInputDialog("Please enter the date. (Format: YYYY-MM-DD)");
         jTextArea1.setText(null);
+        String format = "%1$-15s %2$25s %3$25s %4$25s %5$25s";
+        String someLine = String.format(format, "apptID", "apptDateTime", "petName", "ownerName", "status");
+        jTextArea1.append(someLine + "\n");
         if(s == null) {
             //go back to the main menu because the user hit cancel
         }
@@ -311,7 +369,14 @@ public class VetDatabase extends javax.swing.JFrame {
                    String petName = rs.getString("pet_name");
                    String ownerName = rs.getString("owner_name");
                    String status = rs.getString("status");
-                   jTextArea1.append(apptID + " - " + apptDateTime + " - " + petName + " - " + ownerName + " - " + status + "\n");
+                   String dash = "---";
+                    for(int i = 0; i < 50; i++) {
+                        jTextArea1.append(dash);
+                    }
+                    jTextArea1.append("\n");
+                   format = "%1$-15s %2$25s %3$25s %4$30s %5$25s";
+                   someLine = String.format(format, apptID, apptDateTime, petName, ownerName, status);
+                   jTextArea1.append(someLine + "\n");
                 }
                 con.close();
             } catch(ClassNotFoundException e) {
@@ -325,6 +390,9 @@ public class VetDatabase extends javax.swing.JFrame {
     private void PetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PetsActionPerformed
         String s = SearchPane.showInputDialog("Please enter the pet's name.");
         jTextArea1.setText(null);
+        String format = "%1$-15s %2$25s %3$25s %4$25s %5$25s";
+        String someLine = String.format(format, "apptID", "apptDateTime", "petName", "ownerName", "status");
+        jTextArea1.append(someLine + "\n");
         if(s == null) {
             //go back to the main menu because the user hit cancel
         }
@@ -340,7 +408,14 @@ public class VetDatabase extends javax.swing.JFrame {
                    String petName = rs.getString("pet_name");
                    String ownerName = rs.getString("owner_name");
                    String status = rs.getString("status");
-                   jTextArea1.append(apptID + " - " + apptDateTime + " - " + petName + " - " + ownerName + " - " + status + "\n");
+                   String dash = "---";
+                    for(int i = 0; i < 50; i++) {
+                        jTextArea1.append(dash);
+                    }
+                    jTextArea1.append("\n");
+                   format = "%1$-15s %2$25s %3$25s %4$30s %5$25s";
+                   someLine = String.format(format, apptID, apptDateTime, petName, ownerName, status);
+                   jTextArea1.append(someLine + "\n");
                 }
                 con.close();
             } catch(ClassNotFoundException e) {
@@ -353,6 +428,9 @@ public class VetDatabase extends javax.swing.JFrame {
 
     private void OutstandingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OutstandingActionPerformed
         jTextArea1.setText(null);
+        String format = "%1$-15s %2$25s %3$25s %4$25s %5$25s";
+        String someLine = String.format(format, "apptID", "apptDateTime", "petName", "ownerName", "status");
+        jTextArea1.append(someLine + "\n");
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
@@ -364,7 +442,14 @@ public class VetDatabase extends javax.swing.JFrame {
                 String petName = rs.getString("pet_name");
                 String ownerName = rs.getString("owner_name");
                 String status = rs.getString("status");
-                jTextArea1.append(apptID + " - " + apptDateTime + " - " + petName + " - " + ownerName + " - " + status + "\n");
+                String dash = "---";
+                for(int i = 0; i < 50; i++) {
+                    jTextArea1.append(dash);
+                }
+                jTextArea1.append("\n");
+                format = "%1$-15s %2$25s %3$25s %4$30s %5$25s";
+                someLine = String.format(format, apptID, apptDateTime, petName, ownerName, status);
+                jTextArea1.append(someLine + "\n");
             }
             con.close();
         } catch(ClassNotFoundException e) {
@@ -376,6 +461,9 @@ public class VetDatabase extends javax.swing.JFrame {
 
     private void ResolvedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResolvedActionPerformed
         jTextArea1.setText(null);
+        String format = "%1$-15s %2$25s %3$25s %4$25s %5$25s";
+        String someLine = String.format(format, "apptID", "apptDateTime", "petName", "ownerName", "status");
+        jTextArea1.append(someLine + "\n");
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
@@ -387,7 +475,14 @@ public class VetDatabase extends javax.swing.JFrame {
                 String petName = rs.getString("pet_name");
                 String ownerName = rs.getString("owner_name");
                 String status = rs.getString("status");
-                jTextArea1.append(apptID + " - " + apptDateTime + " - " + petName + " - " + ownerName + " - " + status + "\n");
+                String dash = "---";
+                for(int i = 0; i < 50; i++) {
+                    jTextArea1.append(dash);
+                }
+                jTextArea1.append("\n");
+                format = "%1$-15s %2$25s %3$25s %4$30s %5$25s";
+                someLine = String.format(format, apptID, apptDateTime, petName, ownerName, status);
+                jTextArea1.append(someLine + "\n");
             }
             con.close();
         } catch(ClassNotFoundException e) {
@@ -400,6 +495,9 @@ public class VetDatabase extends javax.swing.JFrame {
     private void PetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PetActionPerformed
         String s = SearchPane.showInputDialog("Please enter the pet's name.");
         jTextArea2.setText(null);
+        String format = "%1$-15s %2$15s %3$35s %4$25s";
+        String someLine = String.format(format, "recordID", "petName", "disease", "status");
+        jTextArea2.append(someLine + "\n");
         if(s == null) {
             //go back to the main menu because the user hit cancel
         }
@@ -414,7 +512,14 @@ public class VetDatabase extends javax.swing.JFrame {
                    String petName = rs.getString("pet_name");
                    String diseaseName = rs.getString("disease_name");
                    String status = rs.getString("status");
-                   jTextArea2.append(recordID + " - " + petName + " - " + diseaseName + " - " + status + "\n");
+                   String dash = "---";
+                    for(int i = 0; i < 40; i++) {
+                        jTextArea2.append(dash);
+                    }
+                    jTextArea2.append("\n");
+                   format = "%1$-15s %2$25s %3$35s %4$25s";
+                   someLine = String.format(format, recordID, petName, diseaseName, status);
+                   jTextArea2.append(someLine + "\n");
                 }
                 con.close();
             } catch(ClassNotFoundException e) {
@@ -428,6 +533,9 @@ public class VetDatabase extends javax.swing.JFrame {
     private void MROwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MROwnerActionPerformed
         String s = SearchPane.showInputDialog("Please enter the owner's name.");
         jTextArea2.setText(null);
+        String format = "%1$-15s %2$15s %3$35s %4$25s";
+        String someLine = String.format(format, "recordID", "petName", "disease", "status");
+        jTextArea2.append(someLine + "\n");
         if(s == null) {
             //go back to the main menu because the user hit cancel
         }
@@ -442,7 +550,14 @@ public class VetDatabase extends javax.swing.JFrame {
                    String petName = rs.getString("pet_name");
                    String diseaseName = rs.getString("disease_name");
                    String status = rs.getString("status");
-                   jTextArea2.append(recordID + " - " + petName + " - " + diseaseName + " - " + status + "\n");
+                   String dash = "---";
+                    for(int i = 0; i < 40; i++) {
+                        jTextArea2.append(dash);
+                    }
+                    jTextArea2.append("\n");
+                   format = "%1$-15s %2$25s %3$35s %4$25s";
+                   someLine = String.format(format, recordID, petName, diseaseName, status);
+                   jTextArea2.append(someLine + "\n");
                 }
                 con.close();
             } catch(ClassNotFoundException e) {
@@ -456,6 +571,9 @@ public class VetDatabase extends javax.swing.JFrame {
     private void AnimalKindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnimalKindActionPerformed
         String s = SearchPane.showInputDialog("Please enter the what type of animal.");
         jTextArea2.setText(null);
+        String format = "%1$-15s %2$15s %3$35s %4$25s";
+        String someLine = String.format(format, "recordID", "petName", "disease", "status");
+        jTextArea2.append(someLine + "\n");
         if(s == null) {
             //go back to the main menu because the user hit cancel
         }
@@ -470,7 +588,14 @@ public class VetDatabase extends javax.swing.JFrame {
                    String petName = rs.getString("pet_name");
                    String diseaseName = rs.getString("disease_name");
                    String status = rs.getString("status");
-                   jTextArea2.append(recordID + " - " + petName + " - " + diseaseName + " - " + status + "\n");
+                   String dash = "---";
+                    for(int i = 0; i < 40; i++) {
+                        jTextArea2.append(dash);
+                    }
+                    jTextArea2.append("\n");
+                   format = "%1$-15s %2$25s %3$35s %4$25s";
+                   someLine = String.format(format, recordID, petName, diseaseName, status);
+                   jTextArea2.append(someLine + "\n");
                 }
                 con.close();
             } catch(ClassNotFoundException e) {
@@ -481,12 +606,47 @@ public class VetDatabase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_AnimalKindActionPerformed
 
-    private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateActionPerformed
+    private void AppointmentUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppointmentUpdateActionPerformed
         // TODO add your handling code here:
         UpdateForm pop = new UpdateForm();
         pop.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_UpdateActionPerformed
+    }//GEN-LAST:event_AppointmentUpdateActionPerformed
+
+    private void InfoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InfoMenuItemActionPerformed
+        jTextArea3.setText(null);
+        String format = "%1$-15s %2$15s %3$35s %4$25s %5$25s %6$25s %7$30s";
+        String someLine = String.format(format, "petID", "petName", "ownerName", "ageYears", "ageMonths", "pet_type", "breed");
+        jTextArea3.append(someLine + "\n");
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select * from pets_info;");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                    int petID = rs.getInt("petID");
+                    String petName = rs.getString("pet_name");
+                    String ownerName = rs.getString("owner_name");
+                    int ageYears = rs.getInt("age_years");
+                    int ageMonths = rs.getInt("age_months");
+                    int pet_type = rs.getInt("pet_type");
+                    String breed = rs.getString("breed");
+                    String dash = "---";
+                    for(int i = 0; i < 70; i++) {
+                        jTextArea3.append(dash);
+                    }
+                    jTextArea3.append("\n");
+                    format = "%1$-15s %2$20s %3$40s %4$25s %5$30s %6$30s %7$45s";
+                    someLine = String.format(format, petID, petName, ownerName, ageYears, ageMonths, pet_type, breed);
+                    jTextArea3.append(someLine + "\n");
+            }
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_InfoMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -531,7 +691,10 @@ public class VetDatabase extends javax.swing.JFrame {
     private javax.swing.JMenuItem AnimalKind;
     private javax.swing.JMenuItem AppointmentsForToday;
     private javax.swing.JLabel AppointmentsSearch;
+    private javax.swing.JLabel AppointmentsSearch1;
+    private javax.swing.JMenuItem AppointmentsUpdate;
     private javax.swing.JMenuItem Date;
+    private javax.swing.JMenuItem InfoMenuItem;
     private javax.swing.JMenuItem MROwner;
     private javax.swing.JLabel MedicalRecordsLabel;
     private javax.swing.JMenuItem Outstanding;
@@ -544,9 +707,12 @@ public class VetDatabase extends javax.swing.JFrame {
     private javax.swing.JOptionPane SearchPane;
     private javax.swing.JMenu Update;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextArea3;
     // End of variables declaration//GEN-END:variables
 }

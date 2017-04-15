@@ -1,3 +1,15 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,6 +27,31 @@ public class NewOwner extends javax.swing.JFrame {
      */
     public NewOwner() {
         initComponents();
+        this.setLocationRelativeTo(null);
+    }
+    
+    public boolean ownerExists(String ownerName) throws SQLException {
+        boolean exists = false;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select owner_name from owners;");
+            ResultSet rs = ps.executeQuery();
+            List<String> results = new ArrayList<String>();
+            while(rs.next()) {
+                results.add(rs.getString(1));
+            }
+            for(int i = 0; i < results.size(); i++) {
+                if(results.get(i).equals(ownerName)) {
+                    exists = true;
+                    i = results.size();
+                }
+            }
+        } 
+        catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        return exists;
     }
 
     /**
@@ -124,7 +161,22 @@ public class NewOwner extends javax.swing.JFrame {
         }
         if (empty) {
             NoTextErrorMessage.showMessageDialog(DoneButton, "Please fill in all text fields.");
-        } else {
+        }else {
+            try {
+                if(ownerExists(newOwner[0])) {
+                    NoTextErrorMessage.showMessageDialog(DoneButton, "That owner already exists.");
+                }
+                else {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+                    PreparedStatement ps = con.prepareStatement("insert into owners(owner_name, address, phone number)VALUES('"+newOwner[0]+"', '"+newOwner[1]+"', '0', '"+newOwner[2]+"');");
+                    ps.executeUpdate();
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
             this.dispose();
         }
     }//GEN-LAST:event_DoneButtonActionPerformed

@@ -49,7 +49,7 @@ public class AddAppointment extends javax.swing.JFrame {
             }
         } 
         catch (ClassNotFoundException ex) {
-            Logger.getLogger(AddAppointment.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         return exists;
     }
@@ -72,7 +72,7 @@ public class AddAppointment extends javax.swing.JFrame {
             }
         } 
         catch (ClassNotFoundException ex) {
-            Logger.getLogger(AddAppointment.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         return exists;
     }
