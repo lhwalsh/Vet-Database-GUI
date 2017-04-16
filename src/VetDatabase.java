@@ -66,6 +66,7 @@ public class VetDatabase extends javax.swing.JFrame {
         Pet = new javax.swing.JMenuItem();
         MROwner = new javax.swing.JMenuItem();
         AnimalKind = new javax.swing.JMenuItem();
+        VaccinationMenuItem = new javax.swing.JMenuItem();
         InfoMenuItem = new javax.swing.JMenuItem();
         OwnerInfoMenuItem = new javax.swing.JMenuItem();
         Add = new javax.swing.JMenu();
@@ -178,6 +179,14 @@ public class VetDatabase extends javax.swing.JFrame {
             }
         });
         SearchMedicalRecords.add(AnimalKind);
+
+        VaccinationMenuItem.setText("Vaccinations");
+        VaccinationMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VaccinationMenuItemActionPerformed(evt);
+            }
+        });
+        SearchMedicalRecords.add(VaccinationMenuItem);
 
         Search.add(SearchMedicalRecords);
 
@@ -667,7 +676,7 @@ public class VetDatabase extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_InfoMenuItemActionPerformed
-
+        //this menu item will display owner information
     private void OwnerInfoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OwnerInfoMenuItemActionPerformed
         jTextArea3.setText(null);
         String format = "%1$-15s %2$20s %3$50s %4$80s";
@@ -699,6 +708,37 @@ public class VetDatabase extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_OwnerInfoMenuItemActionPerformed
+        //this menu item will display all vaccinations in the table
+    private void VaccinationMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VaccinationMenuItemActionPerformed
+        jTextArea2.setText(null);
+        String format = "%1$-15s %2$20s %3$40s";
+        String someLine = String.format(format, "vaccineID", "petName", "vaccineName");
+        jTextArea2.append(someLine + "\n");
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select * from vaccinations;");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                    int vaccineID = rs.getInt("vaccineID");
+                    String petName = rs.getString("pet_name");
+                    String vaccineName = rs.getString("vaccine_name");
+                    String dash = "---";
+                    for(int i = 0; i < 40; i++) {
+                        jTextArea2.append(dash);
+                    }
+                    jTextArea2.append("\n");
+                    format = "%1$-15s %2$30s %3$40s";
+                    someLine = String.format(format, vaccineID, petName, vaccineName);
+                    jTextArea2.append(someLine + "\n");
+            }
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_VaccinationMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -759,6 +799,7 @@ public class VetDatabase extends javax.swing.JFrame {
     private javax.swing.JMenu SearchMedicalRecords;
     private javax.swing.JOptionPane SearchPane;
     private javax.swing.JMenu Update;
+    private javax.swing.JMenuItem VaccinationMenuItem;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
