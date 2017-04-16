@@ -67,6 +67,7 @@ public class VetDatabase extends javax.swing.JFrame {
         MROwner = new javax.swing.JMenuItem();
         AnimalKind = new javax.swing.JMenuItem();
         InfoMenuItem = new javax.swing.JMenuItem();
+        OwnerInfoMenuItem = new javax.swing.JMenuItem();
         Add = new javax.swing.JMenu();
         AddAppointment = new javax.swing.JMenuItem();
         AddMedicalRecord = new javax.swing.JMenuItem();
@@ -92,13 +93,13 @@ public class VetDatabase extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTextArea2);
 
         AppointmentsSearch1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        AppointmentsSearch1.setText("Pet Information");
+        AppointmentsSearch1.setText("Pet/Owner Information");
 
         jTextArea3.setColumns(20);
         jTextArea3.setRows(5);
         jScrollPane3.setViewportView(jTextArea3);
 
-        Search.setText("Search Filters");
+        Search.setText("View");
 
         SearchAppointments.setText("Appointments");
 
@@ -187,6 +188,14 @@ public class VetDatabase extends javax.swing.JFrame {
             }
         });
         Search.add(InfoMenuItem);
+
+        OwnerInfoMenuItem.setText("Owner Information");
+        OwnerInfoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OwnerInfoMenuItemActionPerformed(evt);
+            }
+        });
+        Search.add(OwnerInfoMenuItem);
 
         jMenuBar1.add(Search);
 
@@ -659,6 +668,38 @@ public class VetDatabase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_InfoMenuItemActionPerformed
 
+    private void OwnerInfoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OwnerInfoMenuItemActionPerformed
+        jTextArea3.setText(null);
+        String format = "%1$-15s %2$20s %3$50s %4$80s";
+        String someLine = String.format(format, "ownerID", "ownerName", "address", "phone");
+        jTextArea3.append(someLine + "\n");
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pets?useSSL=false", "root", "root");
+            PreparedStatement ps = con.prepareStatement("select * from owners;");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                    int ownerID = rs.getInt("ownerID");
+                    String ownerName = rs.getString("owner_name");
+                    String address = rs.getString("address");
+                    String phone = rs.getString("phone_number");
+                    String dash = "---";
+                    for(int i = 0; i < 70; i++) {
+                        jTextArea3.append(dash);
+                    }
+                    jTextArea3.append("\n");
+                    format = "%1$-15s %2$25s %3$60s %4$40s";
+                    someLine = String.format(format, ownerID, ownerName, address, phone);
+                    jTextArea3.append(someLine + "\n");
+            }
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_OwnerInfoMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -709,6 +750,7 @@ public class VetDatabase extends javax.swing.JFrame {
     private javax.swing.JMenuItem MROwner;
     private javax.swing.JLabel MedicalRecordsLabel;
     private javax.swing.JMenuItem Outstanding;
+    private javax.swing.JMenuItem OwnerInfoMenuItem;
     private javax.swing.JMenuItem Pet;
     private javax.swing.JMenuItem Pets;
     private javax.swing.JMenuItem Resolved;
